@@ -1,0 +1,11 @@
+{
+    "title": "BIS Consumer FAQ",
+    "source_url": "https://www.bis.gov.in/consumer-overview/for-consumers-faq/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "retrieved_at": "2026-09-16T17:54:52.998432+00:00",
+    "local_file": "backend/data/raw/consumer_faq.html",
+    "file_size_bytes": 415083,
+    "content_type_header": "text/html; charset=UTF-8",
+    "source": "BIS"
+}

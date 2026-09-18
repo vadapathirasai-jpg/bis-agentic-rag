@@ -1,0 +1,11 @@
+{
+    "title": "BIS Hallmarking Consumer Protection",
+    "source_url": "https://www.bis.gov.in/hallmarking-overview/consumer-protection/?lang=en",
+    "category": "hallmarking",
+    "document_type": "html",
+    "retrieved_at": "2026-09-17T03:12:35.102805+00:00",
+    "local_file": "backend/data/raw/hallmarking_consumer_protection.html",
+    "file_size_bytes": 420501,
+    "content_type_header": "text/html; charset=UTF-8",
+    "source": "BIS"
+}

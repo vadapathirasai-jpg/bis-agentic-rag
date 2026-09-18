@@ -1,0 +1,15 @@
+# Environments
+venv/
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Data
+data/processed/
+
+# Qdrant local storage / cache
+.qdrant/

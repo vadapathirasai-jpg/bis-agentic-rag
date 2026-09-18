@@ -1,0 +1,11 @@
+{
+    "title": "BIS CARE / BIS Apps",
+    "source_url": "https://www.bis.gov.in/bis-apps/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "retrieved_at": "2026-09-17T03:12:33.448981+00:00",
+    "local_file": "backend/data/raw/bis_apps.html",
+    "file_size_bytes": 409759,
+    "content_type_header": "text/html; charset=UTF-8",
+    "source": "BIS"
+}

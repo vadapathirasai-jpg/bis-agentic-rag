@@ -1,0 +1,63 @@
+# ==============================
+# Environments & Secrets
+# ==============================
+venv/
+.venv/
+backend/venv/
+
+.env
+.env.*
+!.env.example
+backend/.env
+
+# ==============================
+# Python Cache
+# ==============================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ==============================
+# Local ML Models
+# ==============================
+backend/data/models/
+
+# ==============================
+# Node / React
+# ==============================
+node_modules/
+frontend/node_modules/
+
+dist/
+frontend/dist/
+
+# ==============================
+# Generated / Processed Data
+# ==============================
+backend/data/processed/
+data/processed/
+
+# ==============================
+# Qdrant Local Storage / Cache
+# ==============================
+.qdrant/
+backend/.qdrant/
+qdrant_data/
+
+# ==============================
+# Logs
+# ==============================
+*.log
+
+# ==============================
+# IDE / Editor
+# ==============================
+.vscode/
+.idea/
+
+# ==============================
+# OS Files
+# ==============================
+.DS_Store
+Thumbs.db

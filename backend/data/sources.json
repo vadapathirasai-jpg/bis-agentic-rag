@@ -1,0 +1,65 @@
+[
+  {
+    "title": "BIS Consumer FAQ",
+    "url": "https://www.bis.gov.in/consumer-overview/for-consumers-faq/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "filename_stem": "consumer_faq"
+  },
+  {
+    "title": "BIS Consumer Protection",
+    "url": "https://www.bis.gov.in/consumer-overview/consumer-protection/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "filename_stem": "consumer_protection"
+  },
+  {
+    "title": "BIS Online Complaint Registration",
+    "url": "https://www.bis.gov.in/consumer-overview/online-complaint-registration/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "filename_stem": "online_complaint_registration"
+  },
+  {
+    "title": "BIS CARE / BIS Apps",
+    "url": "https://www.bis.gov.in/bis-apps/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "filename_stem": "bis_apps"
+  },
+  {
+    "title": "BIS Hallmarking Consumer Protection",
+    "url": "https://www.bis.gov.in/hallmarking-overview/consumer-protection/?lang=en",
+    "category": "hallmarking",
+    "document_type": "html",
+    "filename_stem": "hallmarking_consumer_protection"
+  },
+  {
+    "title": "BIS Hallmarking Common Consumer FAQ",
+    "url": "https://www.bis.gov.in/hallmarking-overview/hallmarking-faqs/common-consumer-faq/?lang=en",
+    "category": "hallmarking",
+    "document_type": "html",
+    "filename_stem": "hallmarking_common_consumer_faq"
+  },
+  {
+    "title": "BIS Hallmarking FAQ",
+    "url": "https://www.bis.gov.in/hallmarking-overview/hallmarking-faqs/hallmarking-faq/?lang=en",
+    "category": "hallmarking",
+    "document_type": "html",
+    "filename_stem": "hallmarking_faq"
+  },
+  {
+    "title": "BIS Consumer Overview",
+    "url": "https://www.bis.gov.in/consumer-overview/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "filename_stem": "consumer_overview"
+  },
+  {
+    "title": "BIS Consumer Contact",
+    "url": "https://www.bis.gov.in/consumer-overview/for-consumers-contact-us/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "filename_stem": "consumer_contact"
+  }
+]

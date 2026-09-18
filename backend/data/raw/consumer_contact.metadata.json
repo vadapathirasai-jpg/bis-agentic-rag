@@ -1,0 +1,11 @@
+{
+    "title": "BIS Consumer Contact",
+    "source_url": "https://www.bis.gov.in/consumer-overview/for-consumers-contact-us/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "retrieved_at": "2026-09-17T03:12:43.058296+00:00",
+    "local_file": "backend/data/raw/consumer_contact.html",
+    "file_size_bytes": 408374,
+    "content_type_header": "text/html; charset=UTF-8",
+    "source": "BIS"
+}

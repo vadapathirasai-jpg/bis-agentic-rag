@@ -1,0 +1,11 @@
+{
+    "title": "BIS Online Complaint Registration",
+    "source_url": "https://www.bis.gov.in/consumer-overview/online-complaint-registration/?lang=en",
+    "category": "consumer",
+    "document_type": "html",
+    "retrieved_at": "2026-09-17T03:12:31.919030+00:00",
+    "local_file": "backend/data/raw/online_complaint_registration.html",
+    "file_size_bytes": 409257,
+    "content_type_header": "text/html; charset=UTF-8",
+    "source": "BIS"
+}
