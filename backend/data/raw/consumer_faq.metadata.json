@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/consumer_faq.html",
     "file_size_bytes": 415083,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "5296da736d4b2a78ed6a0e53d869f40315e4ccec05ae4c1d3277f605c1ec30a5",
+    "filename_stem": "consumer_faq",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }

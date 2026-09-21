@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/bis_apps.html",
     "file_size_bytes": 409759,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "eba7ce251320e5a0c06182c142e1db561515cc7ac49c6c5167b85ceb118ea10b",
+    "filename_stem": "bis_apps",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }

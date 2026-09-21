@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/consumer_overview.html",
     "file_size_bytes": 414792,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "3adc572cb99637b8d83e31e03f8d214095196f861ada2d1874b6b4e0cb23f53c",
+    "filename_stem": "consumer_overview",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }

@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/hallmarking_common_consumer_faq.html",
     "file_size_bytes": 421405,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "f6d8b88cd9e674de54b71a81f24f8fd5c0ebb97db5a28de0b3f3c50aa3e79ddb",
+    "filename_stem": "hallmarking_common_consumer_faq",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }

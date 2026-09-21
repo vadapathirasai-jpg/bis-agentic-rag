@@ -6,6 +6,7 @@ for downstream citation and retrieval.
 """
 
 from datetime import datetime, timezone
+import hashlib
 import json
 import logging
 from pathlib import Path
@@ -115,6 +116,53 @@ def detect_document_type(content_type_header: str, url: str) -> str:
         raise UnsupportedContentTypeError(
             f"Unsupported Content-Type '{content_type_header}'. Only HTML and PDF are supported."
         )
+
+
+def compute_content_sha256(content: Union[bytes, str, Path]) -> str:
+    """Compute deterministic SHA-256 hex digest for given raw bytes or file path.
+
+    Args:
+        content: Raw bytes, string, or Path to a local file.
+
+    Returns:
+        64-character lowercase hexadecimal SHA-256 digest string.
+    """
+    if isinstance(content, Path):
+        with open(content, "rb") as f:
+            return hashlib.sha256(f.read()).hexdigest()
+    elif isinstance(content, str):
+        p = Path(content)
+        if p.exists() and p.is_file():
+            with open(p, "rb") as f:
+                return hashlib.sha256(f.read()).hexdigest()
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
+    elif isinstance(content, bytes):
+        return hashlib.sha256(content).hexdigest()
+    else:
+        raise TypeError(f"Unsupported content type for SHA-256 computation: {type(content)}")
+
+
+def detect_content_change(
+    previous_sha256: Optional[str],
+    current_sha256: Optional[str],
+) -> str:
+    """Compare two content SHA-256 hashes and report change status.
+
+    Args:
+        previous_sha256: Previous content hash string.
+        current_sha256: Current content hash string.
+
+    Returns:
+        'UNCHANGED' if hashes match and are non-empty,
+        'CHANGED' if hashes differ or if either hash is missing.
+    """
+    if not previous_sha256 or not current_sha256:
+        return "CHANGED"
+    clean_prev = previous_sha256.strip().lower()
+    clean_curr = current_sha256.strip().lower()
+    if clean_prev == clean_curr:
+        return "UNCHANGED"
+    return "CHANGED"
 
 
 def load_sources(manifest_path: Optional[Union[str, Path]] = None) -> List[Dict[str, Any]]:
@@ -234,6 +282,31 @@ def fetch_resource(
             if recorded_local:
                 actual_file = target_dir / Path(recorded_local).name
                 if actual_file.exists() and actual_file.stat().st_size > 0:
+                    # Enrich existing metadata backward-compatibly if change-detection fields are absent
+                    updated = False
+                    if "content_sha256" not in existing_meta:
+                        existing_meta["content_sha256"] = compute_content_sha256(actual_file)
+                        updated = True
+                    if "filename_stem" not in existing_meta:
+                        existing_meta["filename_stem"] = filename_stem
+                        updated = True
+                    if "etag" not in existing_meta:
+                        existing_meta["etag"] = None
+                        updated = True
+                    if "last_modified" not in existing_meta:
+                        existing_meta["last_modified"] = None
+                        updated = True
+                    if "http_status" not in existing_meta:
+                        existing_meta["http_status"] = 200
+                        updated = True
+
+                    if updated:
+                        try:
+                            with open(metadata_file_path, "w", encoding="utf-8") as f_meta:
+                                json.dump(existing_meta, f_meta, indent=4, ensure_ascii=False)
+                        except Exception as write_err:
+                            logger.warning("Could not backfill metadata %s: %s", metadata_file_path, write_err)
+
                     print("\nSkipping (already downloaded):")
                     print(str(actual_file))
                     print(f"Source URL: {url}")
@@ -280,19 +353,28 @@ def fetch_resource(
     with open(raw_file_path, "wb") as f:
         f.write(raw_content)
 
-    # 9. Build metadata record
+    # 9. Build metadata record with change-detection fields
     retrieved_at = datetime.now(timezone.utc).isoformat()
     relative_local_file = f"backend/data/raw/{raw_filename}"
+    content_sha256 = compute_content_sha256(raw_content)
+    etag = response.headers.get("ETag") or response.headers.get("etag")
+    last_modified = response.headers.get("Last-Modified") or response.headers.get("last-modified")
+    http_status = response.status_code
 
     final_metadata: Dict[str, Any] = {
         "title": title,
         "source_url": url,
+        "filename_stem": filename_stem,
         "category": category,
         "document_type": doc_type,
         "retrieved_at": retrieved_at,
         "local_file": relative_local_file,
         "file_size_bytes": len(raw_content),
+        "content_sha256": content_sha256,
         "content_type_header": content_type_header,
+        "etag": etag if etag else None,
+        "last_modified": last_modified if last_modified else None,
+        "http_status": http_status,
         "source": "BIS",
     }
 

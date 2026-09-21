@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/hallmarking_faq.html",
     "file_size_bytes": 428670,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "1426ea9c1f7d248c87b0abe168052dc1cac80b268185f7f8ee683b8377b720a2",
+    "filename_stem": "hallmarking_faq",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }

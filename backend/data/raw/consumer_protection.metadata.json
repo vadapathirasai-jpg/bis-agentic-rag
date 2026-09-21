@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/consumer_protection.html",
     "file_size_bytes": 413294,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "b3c193e2ab654bbcb45d13365f2f7c46ebfec37157fe57652e5dceead8e460a0",
+    "filename_stem": "consumer_protection",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }

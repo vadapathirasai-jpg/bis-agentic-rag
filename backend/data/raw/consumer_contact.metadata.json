@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/consumer_contact.html",
     "file_size_bytes": 408374,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "76adc881359c233615292377ac8b1ef586ab7b1c8ff4ade749008366fc1511c7",
+    "filename_stem": "consumer_contact",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }

@@ -2,5 +2,7 @@
 
 from .loader import DocumentLoader
 from .chunker import DocumentChunker
+from .source_synchronizer import SourceSynchronizer
 
-__all__ = ["DocumentLoader", "DocumentChunker"]
+__all__ = ["DocumentLoader", "DocumentChunker", "SourceSynchronizer"]
+

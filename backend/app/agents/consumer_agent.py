@@ -34,6 +34,8 @@ if env_path.exists():
     load_dotenv(dotenv_path=env_path)
 
 from app.retrieval.retriever import Retriever
+from app.mcp.client import BISConsumerMCPClient, MCPClientError
+from app.mcp.tools import get_retriever
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -191,6 +193,8 @@ class ConsumerAgent:
         gemini_model: Optional[str] = None,
         max_attempts: int = 2,
         top_k: int = 4,
+        mcp_client: Optional[BISConsumerMCPClient] = None,
+        use_mcp: bool = True,
     ) -> None:
         """Initialize the Consumer Agent.
 
@@ -200,11 +204,58 @@ class ConsumerAgent:
             gemini_model: Optional Gemini model name.
             max_attempts: Maximum retrieval/refinement attempts (bounded 1-3).
             top_k: Default number of evidence chunks to retrieve per search.
+            mcp_client: Optional pre-configured BISConsumerMCPClient instance.
+            use_mcp: If True (default), attempts evidence retrieval via the standardized
+                MCP tool interface before falling back to direct Retriever. If False,
+                bypasses MCP and queries direct Retriever exclusively.
         """
-        self.retriever = retriever or Retriever()
+        self.retriever = retriever or get_retriever()
         self.gemini = GeminiClient(api_key=gemini_api_key, model=gemini_model)
         self.max_attempts = max(1, min(max_attempts, 3))
         self.top_k = top_k
+        self.use_mcp = use_mcp
+
+        if self.use_mcp:
+            self.mcp_client = mcp_client or BISConsumerMCPClient()
+        else:
+            self.mcp_client = None
+
+    def _retrieve_evidence(
+        self,
+        query: str,
+        top_k: int,
+    ) -> tuple[List[Dict[str, Any]], str]:
+        """Retrieve authoritative evidence via MCP tool or fallback/direct Retriever.
+
+        Explicitly distinguishes between:
+        - "mcp": MCP retrieval successfully executed and returned evidence.
+        - "fallback": MCP was attempted but failed/errored, so direct Retriever was used.
+        - "direct": MCP is disabled or not configured; direct Retriever was used directly.
+
+        Args:
+            query: Natural language search query string.
+            top_k: Number of evidence chunks to retrieve.
+
+        Returns:
+            Tuple of (evidence_chunks, channel_name).
+        """
+        if self.use_mcp and self.mcp_client is not None:
+            try:
+                logger.info("Attempting evidence retrieval via MCP tool 'search_bis_documents'...")
+                evidence = self.mcp_client.search_bis_documents(query=query, top_k=top_k)
+                logger.info("MCP retrieval successful: %d chunks retrieved.", len(evidence))
+                return evidence, "mcp"
+            except Exception as mcp_err:
+                logger.warning(
+                    "MCP retrieval failed (%s); executing safe direct Retriever fallback.",
+                    mcp_err,
+                )
+                fallback_evidence = self.retriever.retrieve(query=query, top_k=top_k)
+                return fallback_evidence, "fallback"
+
+        logger.info("MCP disabled or unavailable; executing direct Retriever.")
+        direct_evidence = self.retriever.retrieve(query=query, top_k=top_k)
+        return direct_evidence, "direct"
 
     def analyze_intent(self, question: str) -> Dict[str, Any]:
         """Perform lightweight intent understanding focused on BIS Consumer topics.
@@ -495,17 +546,19 @@ class ConsumerAgent:
         final_evidence: List[Dict[str, Any]] = []
         final_eval: Dict[str, Any] = {}
         query_refinements: List[str] = []
+        final_channel = "direct"
 
         # 2. Iterative Retrieval & Evaluation Loop
         for attempt in range(1, self.max_attempts + 1):
             retrieval_attempts = attempt
             logger.info("Retrieval attempt %d for query: '%s'", attempt, current_query)
 
-            evidence = self.retriever.retrieve(
+            evidence, channel = self._retrieve_evidence(
                 query=current_query,
                 top_k=self.top_k,
             )
             final_evidence = evidence
+            final_channel = channel
             eval_res = self.evaluate_evidence(
                 question=current_query,
                 evidence=evidence,
@@ -514,11 +567,12 @@ class ConsumerAgent:
             final_eval = eval_res
 
             logger.info(
-                "Attempt %d evaluation: sufficient=%s, top_score=%.4f (reason: %s)",
+                "Attempt %d evaluation: sufficient=%s, top_score=%.4f (reason: %s, channel: %s)",
                 attempt,
                 eval_res["sufficient"],
                 eval_res["top_score"],
                 eval_res["reason"],
+                channel,
             )
 
             # If evidence is sufficient or we reached the maximum bounded attempts, exit loop
@@ -553,6 +607,7 @@ class ConsumerAgent:
             "model_used": synthesis.get("model_used"),
             "status_message": synthesis.get("status_message"),
             "intent": intent,
+            "retrieval_channel": final_channel,
         }
 
     # Backward compatibility and ergonomics aliases

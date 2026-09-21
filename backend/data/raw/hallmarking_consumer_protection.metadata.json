@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/hallmarking_consumer_protection.html",
     "file_size_bytes": 420501,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "087590bf0374b2c9bfd45f4a5d4c31d36f65c233aca3c180baeb46e5bf85b748",
+    "filename_stem": "hallmarking_consumer_protection",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }

@@ -7,5 +7,10 @@
     "local_file": "backend/data/raw/online_complaint_registration.html",
     "file_size_bytes": 409257,
     "content_type_header": "text/html; charset=UTF-8",
-    "source": "BIS"
+    "source": "BIS",
+    "content_sha256": "9f7d1051e5a8616b1ea75b8bc44649d3f50d8cd3ba9e002e8a65cf424092dfbc",
+    "filename_stem": "online_complaint_registration",
+    "etag": null,
+    "last_modified": null,
+    "http_status": 200
 }
